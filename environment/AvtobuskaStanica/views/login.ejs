@@ -1,0 +1,28 @@
+<%- include ('../partials/header') %>
+
+      <!-- Forma-->
+  <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <div class="fadeIn first">
+      <img src="img/logo.jpg" id="icon" alt="Icon" />
+    </div>
+    <form action="/login" method="POST" autocomplete="off">
+      <input type="text" class="fadeIn second" name="username" placeholder="e-mail">
+      <input type="password" class="fadeIn third" name="password" placeholder="password">
+      <input type="submit" class="fadeIn fourth" value="Најави Сe">
+    </form>
+    <div id="formFooter">
+      <a class="underlineHover" href="#" onclick='passReset()'>Заборавена лозника?</a>
+    </div>
+  </div>
+</div>
+<script>
+  function passReset(){
+        setTimeout(function() {
+        alert("Испратени се насоки за ресетирање на лозинката на вашиот e-mail");}, 3000);
+    
+        setTimeout(function() {
+        window.location.replace("/login");;}, 3000);
+}
+</script>
+<%- include ('../partials/footer') %>

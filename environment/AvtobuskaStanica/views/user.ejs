@@ -1,0 +1,152 @@
+<%- include ('../partials/header') %>
+
+    <div class="container">
+        <div class="card mt-5 fadeIn second" id="user-card">
+              <div class="card-body">
+                <h5 class="card-title"><strong><%= currentUser.imePrezime %></strong></h5>
+              <span class="card-text"><p>
+                <% if(currentUser.pol=="женско"){ %>
+                    <img src="/img/female_icon.png"></a>
+                <% } else { %>
+                    <img src="/img/male_icon.png"></a>
+                <% } %>
+                <% if(currentUser.student){ %>
+                    <br><br><i class="fas mr-1 fa-graduation-cap"></i>Студент
+                <% } %>
+                <br><i class="fa mr-2 fa-envelope"></i><a href="mailto: info@galeb.mk"><%= currentUser.username %></a><br>
+                <i class="fa mr-2 fa-phone"></i><%= currentUser.telefon %><br>
+                <i class="fa mr-2 fa-table"></i><%= currentUser.datumNaRaganje%>
+                 </p>
+                </span> 
+              </div>
+            </div> <br><br>
+        <h5 class="fadeIn third" >Мој билети: </h5>
+        
+        <% if (currentUser.linii.length == 0) { %>
+        <h3 class="fadeIn third">Моментално немате неплатени билети!</h3>
+            <% }  else { %>
+        <p id="otkazani" class="deletedText float-right fadeIn third" hidden>откажани - за рефундирање обратете се на шалтер или на телефонскиот број на превозникот</p>
+        <table class="table table-striped text-center mt-3 fadeIn third">
+        <thead>
+            <tr>
+                <th>Превозник</th>
+                <th>Тргнува од</th>
+                <th>Тргнува во</th>
+                <th>Дестинација</th>
+                <th>Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% var vkupnaCena=0 %>
+            <% currentUser.linii.forEach(function(linija){ %>
+            <% if(izbrisaniLinii.includes(linija.id)){ %> <script>document.getElementById("otkazani").removeAttribute("hidden")</script><tr class="deletedText"> <% } else { %> <tr> <% }; %>
+                <td> <%= linija.prevoznik %> </td>
+                <td> <%= linija.trgnuvaOd %></td>
+                <td> <%= linija.trgnuvaVo+" " %>ч.</td>
+                <td> <%= linija.destinacija %> </td>
+                <td> <%= linija.cena+" "%>ден.</td> <% vkupnaCena+=linija.cena %>
+                <td class="text-center">
+                <a href="/user/delete/<%= linija._id %>" class="btn btn-danger btn-sm" onclick='return confirm("Дали сте сигурни дека сакате да ја избришете линијата?")'><i class="fa fa-trash-alt"></i>Избриши</a>
+                </td></tr>
+           <% }); %>
+        </tbody>
+    </table> 
+        <% if (currentUser.student) { %>
+        <h5 class="plakjanje fadeIn third">Вкупно за плаќање: &nbsp; &nbsp; &nbsp;<del><%= vkupnaCena %> ден.</del><% vkupnaCena-=(20 / 100) * vkupnaCena; %>
+        <br><strong class="text-success">- 20% </strong>студентски попуст: <strong><%= vkupnaCena %> ден.</strong></h5><br><br>
+        <% } else { %>
+            <h5 class="plakjanje fadeIn third">Вкупно за плаќање: <strong><%= vkupnaCena %> ден.</strong></h5><br><br>
+        <% } %>
+
+        <br><a data-toggle="modal" data-target="#myModal" class="btn btn-success plakjanje fadeIn third"><i class="fa fa-shopping-cart"></i>Плати</a>
+        
+    <% }; %>
+    <a href="/siteLinii" class="btn btn-outline-dark btn-sm mt-2 fadeIn third">преглед на линии</a>
+        <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+        
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Информации за плаќање</h4>
+            </div>
+            <div class="modal-body">
+                        <div class="card-body">
+                        <h5 class="ml-3"><strong><%= vkupnaCena %> МКД</strong></h5>
+                        <p> <img src="/img/payment.jpg" height="60px" width="200px"> 
+                    </p>
+                    
+                    <form action="/user/uspeshnoPlakanje" method="POST" autocomplete="off">
+                    <div class="form-group">
+                    <label for="username">Целосно име и презиме</label>
+                    <div class="input-group">
+                    	<div class="input-group-prepend">
+                    		<span class="input-group-text"><i class="fa fa-user"></i></span>
+                    	</div>
+                    	<input type="text" class="form-control" required>
+                    </div> 
+                    
+                    <div class="form-group">
+                    <label for="cardNumber" class="mt-3">Број на картичка</label>
+                    <div class="input-group">
+                    	<div class="input-group-prepend">
+                    		<span class="input-group-text"><i class="fa fa-credit-card"></i></span>
+                    	</div>
+                    	<input type="text" class="form-control" name="cardNumber" minlength="16" maxlength="16" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX"required>
+                    </div> 
+                    
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label class="mt-3">Истекува</label>
+                            	<div class="form-inline">
+                            		<select class="form-control" style="width:45%">
+                    				  <option>MM</option>
+                    				  <option>01 - Јануари</option>
+                    				  <option>02 - Февруари</option>
+                    				  <option>03 - Март</option>
+                    				  <option>04 - Април</option>
+                    				  <option>05 - Мај</option>
+                    				  <option>06 - Јуни</option>
+                    				  <option>07 - Јули</option>
+                    				  <option>08 - Август</option>
+                    				  <option>09 - Септември</option>
+                    				  <option>10 - Октомври</option>
+                    				  <option>11 - Ноември</option>
+                    				  <option>12 - Декември</option>
+                    				</select>
+                    	            <span style="width:10%; text-align: center"> / </span>
+                    	            <select class="form-control" style="width:45%">
+                    				  <option>YY</option>
+                    				  <option>2020</option>
+                    				  <option>2021</option>
+                    				  <option>2022</option>
+                    				</select>
+                            	</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                 <div class="validacija mt-3"> 
+                                    <label>CVV код<i class="fa fa-question-circle"></i></label>
+                                    <input class="form-control" type="password"  minlength="3" maxlength="3" required>
+                                    <span class="tooltiptext">Три цифри на задната страна од картичката</span>
+                                </div>
+                            </div> 
+                        </div>
+                    </div> 
+                    <button class="subscribe btn btn-success btn-block" type="submit" onclick='return confirm("Дали сте сигурни?")'>Плати</button>
+                    </form>
+                    </div> 
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<%- include ('../partials/footer') %>

@@ -1,0 +1,36 @@
+<%- include ('../partials/header') %>
+
+      <!-- Forma za registracija -->
+  <div class="wrapper fadeInDown">
+  <div id="formContent">
+    <div class="fadeIn second">
+      <img src="img/logo.jpg" id="icon" alt="Icon" />
+    </div>
+    <form action="/register" method="POST" autocomplete="off">
+      <input type="text"  class="fadeIn third" name="imePrezime" placeholder="Име и Презиме" required>
+      <input type="email"  class="fadeIn third" name="username" placeholder="e-mail адреса" required>
+      <div class="validacija"> <input type="password"  name="password" placeholder="Лозинка" 
+      class="fadeIn third" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+        <span class="tooltiptext">Лозинката мора да содржи најмалку 8 карактери и да е составена од најмалку една мала, една голема буква и цифра</span>
+      </div>
+      <input type="text"  class="fadeIn third" name="telefon" placeholder="Телефонски број" required> <br>
+      <label for="birthday" class="fadeIn fourth">Датум на раѓање: </label><input type="date" class="fadeIn fourth" name="datumNaRaganje" required> <br>
+      <label  class="fadeIn fourth labela">Пол:</label>
+      <input type="radio" name="pol" value="машко" checked  class="fadeIn fourth"><span class="fadeIn fourth">Машко</span>
+      <input type="radio" name="pol" value="женско" class="ml-1 fadeIn fourth"><span class="fadeIn fourth">Женско</span><br><br>
+      <input type="checkbox"  name="student" value="true" class="fadeIn fourth">
+      <label  class="fadeIn fourth"><span class="fadeIn fourth">Студент</span></label><br>
+      <input type="submit" class="fadeIn fourth" value="РЕГИСТРИРАЈ СЕ">
+    </form>
+    <div id="formFooter">
+      <a class="underlineHover" href="/">Остани како guest</a>
+    </div>
+
+  </div>
+</div>
+
+<%- include ('../partials/footer') %>
+
+
+
+

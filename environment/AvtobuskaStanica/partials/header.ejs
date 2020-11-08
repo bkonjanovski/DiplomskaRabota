@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link href="/stylesheets/main.css" rel="stylesheet">
+  <title>AvtobuskaStanica</title>
+</head>
+  
+<body>
+     <!-- Navigacija -->
+  <nav class="navbar fixed-top bg-dark navbar-dark fadeIn first" id="navigacija">
+    <div class="container">
+      <a href="/" class="navbar-brand mb-3"><i class="fa fa-bus"></i>AvtobuskaStanica</a>
+      <ul class="userAuth">
+        <% if(!currentUser){ %>
+        <a href="/login" class="nav-link"><i class="fa fa-sign-in-alt"></i>Log in</a>
+        <a href="/register" class="nav-link"><i class="fa fa-user-plus"></i>Register</a>
+       <% } else { %>
+        <a href="/user" class="nav-link"><i class="fa fa-user-alt"></i><%= currentUser.username %></a>
+        <a href="/logout" class="nav-link"><i class="fa fa-sign-out-alt"></i>Log out</a>
+       <% } %>
+      </ul>
+      <ul class="socialMedia">
+        <a href="https://www.facebook.com/AvtobuskaStanica" target="_new" class="nav-link"><i class="fab fa-facebook fa-2x"></i></a>
+         <a href="https://www.twitter.com/AvtobuskaStanica" target="_new" class="nav-link"><i class="fab fa-twitter fa-2x"></i></a>
+         <a href="https://www.instagram.com/AvtobuskaStanica" target="_new" class="nav-link"><i class="fab fa-instagram fa-2x"></i></a>
+      </ul>
+     </div>
+   </nav>

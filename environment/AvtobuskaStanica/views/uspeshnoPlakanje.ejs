@@ -1,0 +1,39 @@
+<%- include ('../partials/header') %>
+    <div class="container text-center">
+        <img class="mt-5 fadeIn second" src="/img/checkmark.png" height="200px" width="200px" class="fadeIn second">
+        <h1 class="fadeIn third">Успешно плаќање!</h1> 
+        <h3 class="fadeIn third">Вашите билети се испратени на вашата e-mail адреса: <i><%= currentUser.username %></i><br>
+         Ве молиме имајте ги испечатени вашите билети при доаѓање на шалтер</h3>
+         <button class="btn btn-info btn-lg fadeIn third" onClick="window.print()"><i class="fas fa-print"></i>Испечати</button>
+         <table class="table table-striped text-center mt-3 fadeIn third">
+        <thead>
+            <tr>
+                <th>Превозник</th>
+                <th>Тргнува од</th>
+                <th>Тргнува во</th>
+                <th>Дестинација</th>
+                <th>Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% var vkupnaCena=0 %>
+            <% currentUser.linii.forEach(function(linija){ %>
+                <tr><td> <%= linija.prevoznik %> </td>
+                <td> <%= linija.trgnuvaOd %></td>
+                <td> <%= linija.trgnuvaVo+" " %>ч.</td>
+                <td> <%= linija.destinacija %> </td>
+                <td> <%= linija.cena+" "%>ден.</td> <% vkupnaCena+=linija.cena %>
+           <% }); %>
+        </tbody>
+    </table> 
+    
+    <% if (currentUser.student) { %>
+        <h5 class="plakjanje fadeIn third">Вкупно за плаќање: &nbsp; &nbsp; &nbsp;<del><%= vkupnaCena %> ден.</del><% vkupnaCena-=(20 / 100) * vkupnaCena; %>
+        <br><strong class="text-success">- 20% </strong>студентски попуст: <strong><%= vkupnaCena %> ден.</strong></h5><br><br>
+        <% } else { %>
+            <h5 class="plakjanje fadeIn third">Вкупно за плаќање: <strong><%= vkupnaCena %> ден.</strong></h5><br><br>
+        <% } %>
+        <a href="/user" class="button fadeIn third float-left">Врати се назад</a>
+    </div> 
+    
+<%- include ('../partials/footer') %>

@@ -1,0 +1,158 @@
+<%- include ('../partials/header') %>
+
+    <div class="container">
+    <% if (linii.length == 0) { %>
+        <h3 class="fadeIn third mt-5">Моментално нема внесени линии!</h3>
+            <% }  else { %>
+      <!-- Linii -->
+    <table class="table table-striped text-center mt-5 fadeIn third">
+        <thead>
+            <tr>
+                <th>Превозник</th>
+                <th>Тргнува од</th>
+                <th>Тргнува во</th>
+                <th>Дестинација</th>
+                <th>Цена</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% linii.forEach(function(linija){ %>
+                <tr><td> <%= linija.prevoznik %> </td>
+                <td> <%= linija.trgnuvaOd %></td>
+                <td> <%= linija.trgnuvaVo+" " %>ч.</td>
+                <td> <%= linija.destinacija %> </td>
+                <td> <%= linija.cena+" "%>ден.</td>
+                <td class="text-center">
+                <% if(currentUser && currentUser.username == "admin"){ %>
+                 <a href="/delete/<%= linija._id %>" class="btn btn-danger btn-sm" onclick='return confirm("Дали сте сигурни дека сакате да ја избришете линијата?")'><i class="fa fa-trash-alt"></i>Избриши</a>
+                 <% } %>
+                 <% if(currentUser && currentUser.username != "admin"){ %> 
+                 <a href="/user/add/<%= linija._id %>" class="btn btn-success btn-sm" ><i class="fa fa-cart-plus"></i>Купи билет</a>
+                 <% } %>
+                </td>
+            <% }); %>
+        </tbody>
+    </table>  
+    <h5 class="fadeIn third">Вкупно линии: <strong><%= linii.length %></strong></h5><br><br>
+    <% } %>
+  <% if(currentUser && currentUser.username == "admin"){ %> 
+        <a data-toggle="modal" data-target="#myModal" class="btn btn-info float-right fadeIn third" ><i class="fa fa-plus mr-1"></i>Додади нова линија</a>
+    <% } %>
+    
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Додади нова линија</h4>
+        </div>
+        <div class="modal-body text-center">
+          <div class="container">
+            <form action="/novaLinija" method="POST" autocomplete="off">
+            <div class="form-group">
+                <label>Превозник:</label>
+                <select name="prevoznik" class="form-control">
+                    <option value="galeb">Галеб</option>
+                    <option value="delfina">Делфина Турс</option>
+                    <option value="transkop">Транскоп</option>
+                    <option value="rule">Руле Турс</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Ден:</label>
+                <select name="den" class="form-control">
+                    <option value="Пон." selected>Понеделник</option>
+                    <option value="Вто.">Вторник</option>
+                    <option value="Сре.">Среда</option>
+                    <option value="Чет.">Четврток</option>
+                    <option value="Пет.">Петок</option>
+                    <option value="Саб.">Сабота</option>
+                </select>
+                </div>
+                <div class="form-group">
+                <label>Тргнува од:</label>
+                <select name="trgnuvaOd" class="form-control">
+                    <option value="Охрид">Охрид</option>
+                    <option value="Битола">Битола</option>
+                    <option value="Кичево">Кичево</option>
+                    <option value="Скопје">Скопје</option>
+                    <option value="Гостивар">Гостивар</option>
+                    <option value="Тетово">Тетово</option>
+                    <option value="Куманово">Куманово</option>
+                    <option value="Прилеп">Прилеп</option>
+                    <option value="Велес" selected>Велес</option>
+                    <option value="Струмица">Струмица</option>
+                    <option value="Кратово">Кратово</option>
+                    <option value="Берово">Берово</option>
+                    <option value="Неготино">Неготино</option>
+                    <option value="Штип">Штип</option>
+                    <option value="Гевгелија">Гевгелија</option>
+                </select>
+            </div>
+             <div class="form-group">
+                <label>Тргнува во:</label>
+                <select name="trgnuvaVo" class="form-control">
+                    <option value="05:00">05:00ч</option>
+                    <option value="07:15">07:15ч</option>
+                    <option value="09:30" selected >09:30ч</option>
+                    <option value="12:00">12:00ч</option>
+                    <option value="15:00">15:00ч</option>
+                    <option value="17:45">17:45ч</option>
+                    <option value="18:30">18:30ч</option>
+                    <option value="20:00">20:00ч</option>
+                    <option value="21:30">21:30ч</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Дестинација:</label>
+                <select name="destinacija" class="form-control">
+                    <option value="Охрид">Охрид</option>
+                    <option value="Битола" selected>Битола</option>
+                    <option value="Кичево">Кичево</option>
+                    <option value="Скопје">Скопје</option>
+                    <option value="Гостивар">Гостивар</option>
+                    <option value="Тетово">Тетово</option>
+                    <option value="Куманово">Куманово</option>
+                    <option value="Прилеп">Прилеп</option>
+                    <option value="Велес">Велес</option>
+                    <option value="Струмица">Струмица</option>
+                    <option value="Кратово">Кратово</option>
+                    <option value="Берово">Берово</option>
+                    <option value="Неготино">Неготино</option>
+                    <option value="Штип">Штип</option>
+                    <option value="Гевгелија">Гевгелија</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Цена:</label>
+                <select name="cena" class="form-control">
+                    <option value="250">250 ден</option>
+                    <option value="300">300 ден</option>
+                    <option value="350">350 ден</option>
+                    <option value="400">400 ден</option>
+                    <option value="450">450 ден</option>
+                    <option value="500" selected>500 ден</option>
+                    <option value="550">550 ден</option>
+                    <option value="600">600 ден</option>
+                    <option value="650">650 ден</option>
+                    <option value="700">700 ден</option>
+                    <option value="750">750 ден</option>
+                    <option value="800">800 ден</option>
+                </select>
+            </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-info mt-2"> <i class="fa fa-database"></i>Внеси</button>
+        </div>
+   </form>
+   </div>
+ </div>
+    <div class="modal-footer">
+     <button type="button" class="btn btn-default" data-dismiss="modal">Откажи</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div> 
+    
+<%- include ('../partials/footer') %>
